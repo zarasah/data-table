@@ -27,6 +27,31 @@ const data = [
         id: 5,
         name: 'Jane',
         age: 25,  
+    },
+    {
+        id: 6,
+        name: 'Nane',
+        age: 30,
+    },
+    {
+        id: 7,
+        name: 'Gevorg',
+        age: 20,  
+    },
+    {
+        id: 8,
+        name: 'Nelly',
+        age: 19,  
+    },
+    {
+        id: 9,
+        name: 'Artak',
+        age: 42,  
+    },
+    {
+        id: 10,
+        name: 'Tatev',
+        age: 37,  
     }
 ];
 
