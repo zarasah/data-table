@@ -1,59 +1,22 @@
 import DataTable from './DataTable.js';
 
 const columns = ['id', 'name', 'age'];
+const data = [];
 
-const data = [
-    {
-        id: 1,
-        name: 'Albert',
-        age: 50,
-    },
-    {
-        id: 2,
-        name: 'Zara',
-        age: 32,  
-    },
-    {
-        id: 3,
-        name: 'Vika',
-        age: 6,  
-    },
-    {
-        id: 4,
-        name: 'Jhon',
-        age: 42,  
-    },
-    {
-        id: 5,
-        name: 'Jane',
-        age: 25,  
-    },
-    {
-        id: 6,
-        name: 'Nane',
-        age: 30,
-    },
-    {
-        id: 7,
-        name: 'Gevorg',
-        age: 20,  
-    },
-    {
-        id: 8,
-        name: 'Nelly',
-        age: 19,  
-    },
-    {
-        id: 9,
-        name: 'Artak',
-        age: 42,  
-    },
-    {
-        id: 10,
-        name: 'Tatev',
-        age: 37,  
+const names = ['Ani', 'Artak', 'Zara', 'Albert', 'Vahe', 'Nane', 'Van', 'Nelly', 
+                'Anush', 'Narek', 'Serine', 'Jhon', 'Jane', 'Vika', 'Sam', 'Armine', 
+                'Lusy', 'Karen', 'Jack', 'Astghik', 'Ashot', 'Davit', 'Nune',
+                'Meline', 'Robert', 'Nataly', 'Gor', 'Anahit', 'Ann', 'Ben', 'Mery'];
+
+for (let i = 1; i <= names.length; i++) {
+    const obj = {
+        id: i,
+        name: names[i - 1],
+        age: Math.ceil(Math.random() * 30 + 10)
     }
-];
+
+    data.push(obj);
+}
 
 const dataTable = new DataTable(columns, data);
 
