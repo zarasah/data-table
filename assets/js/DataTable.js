@@ -1,14 +1,15 @@
 class DataTable {
-    constructor(columns = [], data = []) {
+    constructor(columns = [], data = [], {perPage = 5}) {
         this.columns = columns;
         this.data = data;
+        this.perPage = perPage;
     }
 
-    createTable() {
+    createTable($dataTableContainer) {
         const $table = document.createElement('table');
         this.$table = $table;
-        const $dataTableContainer = document.querySelector('.data-table-container');
-        this.perPage = 3;
+        // const $dataTableContainer = document.querySelector('.data-table-container');
+        // this.perPage = 3;
         this.currentData = this.data.slice(0, this.perPage);
         this.$dataTableContainer = $dataTableContainer;
         $dataTableContainer.appendChild($table);
@@ -42,7 +43,7 @@ class DataTable {
     }
 
     renderData() {
-        this.$tbody.innerHTML = null;
+        this.$tbody.innerHTML = null; // null or ''
 
         this.currentData.map((item) => {
             const $tr = document.createElement('tr');
@@ -60,7 +61,7 @@ class DataTable {
     renderPagination() {
         const $pagination = document.querySelector('.pagination') || document.createElement('div');
         $pagination.classList.add('pagination');
-        $pagination.innerHTML =null;
+        $pagination.innerHTML =null; // null or ''
         const pageCount = Math.ceil (this.data.length / this.perPage);
 
         for (let i = 1; i <= pageCount; i++) {
@@ -87,13 +88,16 @@ class DataTable {
         this.$dataTableContainer.appendChild($pagination);
     }
 
+    // addEvent() {
+    // ???
+    // }
+
     createSelect() {
         const $selectPerPages = document.createElement('select');
-        for ( let i = 0; i <= 27;) {
+        for ( let i = 0; i <= 27;  i = i + 3) {
             const $option = document.createElement('option');
             $option.innerHTML = i + 3;
             $selectPerPages.appendChild($option);
-            i = i + 3;
         }
 
         $selectPerPages.addEventListener('change', (e) => {

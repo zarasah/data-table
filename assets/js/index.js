@@ -18,9 +18,11 @@ for (let i = 1; i <= names.length; i++) {
     data.push(obj);
 }
 
-const dataTable = new DataTable(columns, data);
+const options = { perPage: 10 };
+const $dataTableContainer = document.querySelector('.data-table-container');
+const dataTable = new DataTable(columns, data, options);
 
-dataTable.createTable();
+dataTable.createTable($dataTableContainer);
 
 // Element.prototaype.dataTable = function() {
     
