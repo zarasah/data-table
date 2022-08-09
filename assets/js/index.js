@@ -1,6 +1,24 @@
 import DataTable from './DataTable.js';
 
-const columns = ['id', 'name', 'age'];
+// const columns = ['id', 'name', 'age'];
+const columnsObject = [
+    {
+        value: 'ID',
+        dataIndex: 'id',
+    },
+    {
+        value: 'Name',
+        dataIndex: 'name',
+    },
+    {
+        value: 'Age',
+        dataIndex: 'age',
+    },
+    {
+        value: 'Delete',
+        dataIndex: 'delete',  //  es hanel estexic, heto ciklov datatablei mej mi hat avel syunak avelacnel, heto ciklov meje X-er lcnel
+    },
+];
 const data = [];
 
 const names = ['Ani', 'Artak', 'Zara', 'Albert', 'Vahe', 'Nane', 'Van', 'Nelly', 
@@ -20,9 +38,22 @@ for (let i = 1; i <= names.length; i++) {
 
 const options = { perPage: 10 };
 const $dataTableContainer = document.querySelector('.data-table-container');
-const dataTable = new DataTable(columns, data, options);
+// const dataTable = new DataTable(columnsObject, data, options);
 
-dataTable.createTable($dataTableContainer);
+// dataTable.createTable($dataTableContainer);
+
+// const $div = document.createElement('div');
+Element.prototype.datatable = function (columnsObject, data, options) {
+    const dataTable =new DataTable(columnsObject, data, options);
+    dataTable.createTable(this);
+}
+
+$dataTableContainer.datatable(columnsObject, data, options);
+
+
+
+
+
 
 // Element.prototaype.dataTable = function() {
     
