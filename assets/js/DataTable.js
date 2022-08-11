@@ -113,7 +113,10 @@ class DataTable {
 
             $tr.appendChild($th);
         });
-
+        const $th = document.createElement('th');
+        $th.classList.add(this.cellClassName);
+        $th.innerHTML = 'Delete';
+        $tr.appendChild($th);
         $thead.appendChild($tr);
         this.$table.appendChild($thead);
     }
@@ -138,6 +141,41 @@ class DataTable {
                 $td.innerHTML = item[key];
                 $tr.appendChild($td);
             }
+            const $tdDel = document.createElement('td');
+            $tdDel.classList.add(this.cellClassName);
+            $tdDel.innerHTML = 'X';
+            $tdDel.setAttribute('data-id', item.id);
+            $tr.appendChild($tdDel);
+            
+            $tdDel.addEventListener('click', (e) => {
+                const deleteData = +e.target.dataset.id;
+
+                if (!this.filteredData) {
+                    const newData = this.data.filter((item) => {
+                        return item.id !== deleteData;
+                    })
+                    
+                    // console.log('newData', newData);
+                    this.pageCount = Math.ceil(newData.length / this.perPage);
+                    this.data = newData;
+                    this.currentData = this.data.slice(0, this.perPage);
+                    this.renderData(this.currentData);
+                    this.renderPagination(this.pageCount, this.data);
+                } else {
+                    const newData = this.data.filter((item) => {
+                        return item.id !== deleteData;
+                    })
+                    const newFiltered = this.filteredData.filter((item) => {
+                        return item.id !== deleteData;
+                    })
+                    this.data = newData;
+                    this.filteredData = newFiltered;
+                    this.pageCount = Math.ceil(this.filteredData.length / this.perPage);
+                    this.currentData = this.filteredData.slice(0, this.perPage);
+                    this.renderData(this.currentData);
+                    this.renderPagination(this.pageCount, this.filteredData);
+                }
+            })
 
             this.$tbody.appendChild($tr);
         });
@@ -191,7 +229,7 @@ class DataTable {
             this.perPage = +e.target.value;
 
             if (e.target.value === '') {
-                return;  //  ???
+                this.perPage = 10;
             }
 
             const data = !this.filteredData ? this.data : this.filteredData;
@@ -215,8 +253,6 @@ class DataTable {
             this.pageCount = Math.ceil(this.filteredData.length / this.perPage);
                 
             this.currentData = this.filteredData.slice(0, this.perPage);
-            console.log('cur', this.currentData);
-            console.log('filter', this.filteredData);
             this.renderData(this.currentData);
             this.renderPagination(this.pageCount, this.filteredData);
         });

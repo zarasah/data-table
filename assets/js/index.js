@@ -14,16 +14,16 @@ const columnsObject = [
         value: 'Age',
         dataIndex: 'age',
     },
-    {
-        value: 'Delete',
-        dataIndex: 'delete',  //  es hanel estexic, heto ciklov datatablei mej mi hat avel syunak avelacnel, heto ciklov meje X-er lcnel
-    },
+    // {
+    //     value: 'Delete',
+    //     dataIndex: 'delete',  //  es hanel estexic, heto ciklov datatablei mej mi hat avel syunak avelacnel, heto ciklov meje X-er lcnel
+    // },
 ];
 const data = [];
 
 const names = ['Ani', 'Artak', 'Zara', 'Albert', 'Vahe', 'Nane', 'Van', 'Nelly', 
                 'Anush', 'Narek', 'Serine', 'Jhon', 'Jane', 'Vika', 'Sam', 'Armine', 
-                'Lusy', 'Karen', 'Jack', 'Astghik', 'Ashot', 'Davit', 'Nune',
+                'Lusy', 'Karen', 'Jack', 'Astghik', 'Ashot', 'Davit', 'Nune', 'Vahag',
                 'Meline', 'Robert', 'Nataly', 'Gor', 'Anahit', 'Ann', 'Ben', 'Mery'];
 
 for (let i = 1; i <= names.length; i++) {
