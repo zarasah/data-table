@@ -123,9 +123,9 @@ class DataTable {
             column.dataIndex === 'delete' ? "" : $th.setAttribute('data-sort-order', 'asc');
 
             $th.addEventListener('click', (e) => {
-                let sortMethod = $th.getAttribute('data-sort-order');
-                let columnName = $th.getAttribute('data-sort');                
-                let tempData = this.data;
+                const sortMethod = $th.getAttribute('data-sort-order');
+                const columnName = $th.getAttribute('data-sort');
+                const tempData = !this.filteredData ? this.data : this.filteredData;              
 
                 if (sortMethod === 'asc') {
                     $th.setAttribute('data-sort-order', 'des');
