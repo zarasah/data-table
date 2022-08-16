@@ -14,6 +14,10 @@ const columnsObject = [
         value: 'Age',
         dataIndex: 'age',
     },
+    {
+        value: 'Hobby',
+        dataIndex: 'hobby',
+    },
     // {
     //     value: 'Delete',
     //     dataIndex: 'delete',  //  es hanel estexic, heto ciklov datatablei mej mi hat avel syunak avelacnel, heto ciklov meje X-er lcnel
@@ -26,11 +30,14 @@ const names = ['Ani', 'Artak', 'Zara', 'Albert', 'Vahe', 'Nane', 'Van', 'Nelly',
                 'Lusy', 'Karen', 'Jack', 'Astghik', 'Ashot', 'Davit', 'Nune', 'Vahag',
                 'Meline', 'Robert', 'Nataly', 'Gor', 'Anahit', 'Ann', 'Ben', 'Mery'];
 
+const hobbys = ['Hiking', 'Backpacking', 'Camping', 'Fishing', 'Running'];
+
 for (let i = 1; i <= names.length; i++) {
     const obj = {
         id: i,
         name: names[i - 1],
-        age: Math.ceil(Math.random() * 30 + 10)
+        age: Math.ceil(Math.random() * 30 + 10),
+        hobby: hobbys[Math.floor(Math.random() * 5)]
     }
 
     data.push(obj);

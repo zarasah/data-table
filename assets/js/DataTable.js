@@ -34,6 +34,48 @@ class DataTable {
         this.$table = $table;
         this.currentData = this.data.slice(0, this.perPage);
         $dataTableContainer.appendChild($table);
+        // debugger;
+        const $deleteBtn = document.createElement('button');
+        this.$deleteBtn = document.createElement('button');
+        this.$deleteBtn.innerText = 'DELETE CHECKED';
+        this.$deleteBtn.classList.add('delete');
+        
+        this.$deleteBtn.addEventListener('click', (e) => {
+            const checkedData = document.querySelectorAll('.check');
+            const deleteCheckData = [];
+            checkedData.forEach((item) => {
+                if (item.checked) {
+                    deleteCheckData.push(+item.dataset.id);  
+                }
+            })
+
+            if (this.filteredData) {
+                const filteredData = this.filteredData.filter((data) => {
+                    return !deleteCheckData.includes(data.id);
+                })
+                const tempData = this.data.filter((data) => {
+                    return !deleteCheckData.includes(data.id);
+                })
+                this.data = tempData;
+                this.filteredData = filteredData;
+                this.pageCount = Math.ceil(this.filteredData.length / this.perPage);
+                this.currentData = this.filteredData.slice(0, this.perPage);
+                this.renderData(this.currentData);
+                this.renderPagination(this.pageCount, this.filteredData);
+
+            } else {
+                const tempData = this.data.filter((data) => {
+                    return !deleteCheckData.includes(data.id);
+                })
+                this.data = tempData;
+                this.pageCount = Math.ceil(this.data.length / this.perPage);
+                this.currentData = this.data.slice(0, this.perPage);
+                this.renderData(this.currentData);
+                this.renderPagination(this.pageCount, this.data);
+            }
+    
+            this.$thCheck.checked = false;
+        })
 
         this.createThead();
         this.createTbody();
@@ -41,12 +83,36 @@ class DataTable {
         this.renderPagination(this.pageCount, this.data);
         this.createSearch();
         this.createSelect();
+
+        $dataTableContainer.append(this.$deleteBtn);
+        this.$deleteBtn.hidden = true;
     }
 
     createThead() {
         const $thead = document.createElement('thead');
         const $tr = document.createElement('tr');
         $tr.classList.add(this.rowClassName);
+
+        const $thCheck = document.createElement('input');
+        this.$thCheck = $thCheck;
+        $thCheck.setAttribute('type', 'checkbox');
+        $tr.appendChild($thCheck);
+
+        $thCheck.addEventListener('change', (e) => {
+            const $checkList = document.querySelectorAll('.check');
+
+            if($thCheck.checked) {
+                $checkList.forEach((checkBox => {
+                    checkBox.checked = true;
+                    this.$deleteBtn.hidden = false;
+                }))
+            } else {
+                $checkList.forEach((checkBox => {
+                    checkBox.checked = false;
+                    this.$deleteBtn.hidden = true;
+                }))
+            }
+        })
 
         this.columns.forEach((column) => {
             const $th = document.createElement('th');
@@ -134,6 +200,37 @@ class DataTable {
         data.map((item) => {
             const $tr = document.createElement('tr');
             $tr.classList.add(this.rowClassName);
+            
+            const $tdCheck = document.createElement('input');
+            $tdCheck.classList.add(this.cellClassName);
+            $tdCheck.setAttribute('type', 'checkbox');
+            $tdCheck.setAttribute('data-id', item.id);
+            $tdCheck.classList.add('check');
+            $tr.appendChild($tdCheck);
+            const checkDataList = [];
+            this.checkDataList = checkDataList;
+            $tdCheck.addEventListener('change', (e) => {
+                // debugger;
+                const checkedData = +e.target.dataset.id;
+                if (e.target.checked) {
+                    this.checkDataList.push(checkedData);
+                } else {
+                    const temp = this.checkDataList.filter((item) => {
+                        return item !== checkedData;
+                    })
+                    this.checkDataList = temp;
+                }
+                
+
+                console.log(this.checkDataList);
+                
+                if (this.checkDataList.length > 1) {
+                    console.log(this.checkDataList.length)
+                    this.$deleteBtn.hidden = false;
+                } else {
+                    this.$deleteBtn.hidden = true;
+                }
+            })
 
             for (const key in item) {
                 const $td = document.createElement('td');
