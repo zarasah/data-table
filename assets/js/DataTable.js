@@ -73,8 +73,9 @@ class DataTable {
                 this.renderData(this.currentData);
                 this.renderPagination(this.pageCount, this.data);
             }
-    
+            
             this.$thCheck.checked = false;
+            this.$deleteBtn.hidden = true;
         })
 
         this.createThead();
@@ -179,10 +180,16 @@ class DataTable {
 
             $tr.appendChild($th);
         });
-        const $th = document.createElement('th');
-        $th.classList.add(this.cellClassName);
-        $th.innerHTML = 'Delete';
-        $tr.appendChild($th);
+        const $thDel = document.createElement('th');
+        $thDel.classList.add(this.cellClassName);
+        $thDel.innerHTML = 'Delete';
+        $tr.appendChild($thDel);
+
+        const $thEdit = document.createElement('th');
+        $thEdit.classList.add(this.cellClassName);
+        $thEdit.innerHTML = 'Edit';
+        $tr.appendChild($thEdit);
+
         $thead.appendChild($tr);
         this.$table.appendChild($thead);
     }
@@ -240,7 +247,7 @@ class DataTable {
             }
             const $tdDel = document.createElement('td');
             $tdDel.classList.add(this.cellClassName);
-            $tdDel.innerHTML = 'X';
+            $tdDel.innerHTML = '&#10008';
             $tdDel.setAttribute('data-id', item.id);
             $tr.appendChild($tdDel);
             
@@ -251,8 +258,6 @@ class DataTable {
                     const newData = this.data.filter((item) => {
                         return item.id !== deleteData;
                     })
-                    
-                    // console.log('newData', newData);
                     this.pageCount = Math.ceil(newData.length / this.perPage);
                     this.data = newData;
                     this.currentData = this.data.slice(0, this.perPage);
@@ -274,24 +279,98 @@ class DataTable {
                 }
             })
 
+            const $tdEdit = document.createElement('td');
+            $tdEdit.classList.add(this.cellClassName);
+            $tdEdit.innerHTML = '&#9998';
+            $tdEdit.setAttribute('data-id', item.id);
+            $tr.appendChild($tdEdit);
+            let check = true;
+
+            $tdEdit.addEventListener('click', (e) => {
+                if (document.querySelector('.editForm')) {
+                    check = false;
+                }
+
+                if (check) {
+                    const $div = document.createElement('div');
+                    $div.classList.add('editForm');
+                    const $form = document.createElement('form');
+
+                    this.columns.forEach((item) => {
+                        const $label = document.createElement('lable');
+                        $label.innerHTML = item.value;
+                        const $input = document.createElement('input');
+                        const editID = +e.target.dataset.id;
+                        const editText = this.data.filter((data) => {
+                            return data.id === editID;
+                        })[0];
+                        // debugger;
+                        const index = item.value.toLowerCase();
+                        const text = editText[index];
+                        $input.name = index;
+                        console.log($input.name);
+                        $input.value = text;
+                        $label.appendChild($input);
+                        $form.appendChild($label);
+                    })
+                    const $save = document.createElement('button');
+                    const $cancel = document.createElement('button');
+                    $save.innerHTML = 'Save';
+                    $cancel.innerHTML = 'Cancel';
+
+                    $save.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const editedData = this.data.map((item) => {
+                        // debugger;
+                            if (item.id === +$tdEdit.dataset.id) {
+                                const newId = $form.querySelector('input[name=id]').value;
+                                const newName =$form.querySelector('input[name=name]').value;
+                                const newAge =$form.querySelector('input[name=age]').value;
+                                const newHobby =$form.querySelector('input[name=hobby]').value;
+                                item = {
+                                    id: +newId,
+                                    name: newName,
+                                    age: +newAge,
+                                    hobby: newHobby
+                                }
+                            }
+                        return item;
+                        })
+                        // console.log(editedData);
+
+                        this.data = editedData;
+                        this.currentData = this.data.slice(0, this.perPage);
+                        this.renderData(this.currentData);
+                        this.renderPagination(this.pageCount, this.data);
+                        check = true;
+                        $div.remove();
+                    })
+
+                    $cancel.addEventListener('click', (e) => {
+                        check = true;
+                        $div.remove();
+                    })
+
+                    $form.appendChild($save);
+                    $form.appendChild($cancel);
+                    $div.appendChild($form);
+                    this.$dataTableContainer.appendChild($div);
+                }   
+            })
             this.$tbody.appendChild($tr);
         });
     }
 
     renderPagination(pageCount, data) {
-        console.log('data', data);
         const $pagination = document.querySelector('.pagination') || document.createElement('div');
         $pagination.classList.add('pagination');
         $pagination.innerHTML = null; // null or ''
-        // const pageCount = Math.ceil (this.data.length / this.perPage);
-        console.log('pagec', pageCount);
         for (let i = 1; i <= pageCount; i++) {
             const $button = document.createElement('button');
             $button.innerHTML += i;
             $pagination.appendChild($button);
 
             $button.addEventListener('click', (e) => {
-                //debugger;
                 const currentPage = e.target.innerHTML;
                 
                 if (currentPage === '1') {
