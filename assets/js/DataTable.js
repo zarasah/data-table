@@ -329,23 +329,21 @@ class DataTable {
                     $save.addEventListener('click', (e) => {
                         e.preventDefault();
                         const editedData = this.data.map((item) => {
-                        // debugger;
                             if (item.id === +$tdEdit.dataset.id) {
-                                const newId = $form.querySelector('input[name=id]').value;
-                                const newName =$form.querySelector('input[name=name]').value;
-                                const newAge =$form.querySelector('input[name=age]').value;
-                                const newHobby =$form.querySelector('input[name=hobby]').value;
-                                item = {
-                                    id: +newId,
-                                    name: newName,
-                                    age: +newAge,
-                                    hobby: newHobby
+                                const editItem = {};
+                                for (let key in item) {
+                                    const newItem = $form.querySelector(`input[name=${key}]`).value;
+                                    console.log('newItem', newItem);
+                                    if (typeof item[key] === 'number') {
+                                        editItem[key] = +newItem;
+                                    } else {
+                                        editItem[key] = newItem;
+                                    }
                                 }
+                                item = editItem;
                             }
                         return item;
                         })
-                        // console.log(editedData);
-
                         this.data = editedData;
                         this.currentData = this.data.slice(0, this.perPage);
                         this.renderData(this.currentData);
