@@ -105,6 +105,7 @@ class DataTable {
             if($thCheck.checked) {
                 $checkList.forEach((checkBox => {
                     checkBox.checked = true;
+                    this.checkDataList.push(+checkBox.dataset.id);
                     this.$deleteBtn.hidden = false;
                 }))
             } else {
@@ -238,11 +239,10 @@ class DataTable {
                     this.$deleteBtn.hidden = true;
                 }
 
-                for (let i = 0; i < this.currentData.length; i++) {
-                    if (!this.$tdCheck.checked) {
-                        return;
-                    }
+                if (this.checkDataList.length === this.currentData.length) {
                     this.$thCheck.checked = true;
+                } else {
+                    this.$thCheck.checked = false;
                 }
             })
 

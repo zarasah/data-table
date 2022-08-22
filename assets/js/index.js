@@ -1,6 +1,5 @@
 import DataTable from './DataTable.js';
 
-// const columns = ['id', 'name', 'age'];
 const columnsObject = [
     {
         value: 'ID',
@@ -18,10 +17,6 @@ const columnsObject = [
         value: 'Hobby',
         dataIndex: 'hobby',
     },
-    // {
-    //     value: 'Delete',
-    //     dataIndex: 'delete',  //  es hanel estexic, heto ciklov datatablei mej mi hat avel syunak avelacnel, heto ciklov meje X-er lcnel
-    // },
 ];
 const data = [];
 
@@ -56,16 +51,3 @@ Element.prototype.datatable = function (columnsObject, data, options) {
 }
 
 $dataTableContainer.datatable(columnsObject, data, options);
-
-
-
-
-
-
-// Element.prototaype.dataTable = function() {
-    
-// };
-
-// const $table = document.querySelector('data-table-container');
-
-// $table.dataTable();

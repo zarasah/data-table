@@ -1,4 +1,4 @@
-table, tr, td, th {
+/* table, tr, td, th {
     border: solid 0.5px #000000;
 }
 
@@ -8,4 +8,35 @@ table {
 
 th, td {
     padding: 8px;
+} */
+
+/* .datatable {
+    overflow:hidden;
+    border: 1px solid #000000;
+    background:#ffffff;
+    width: 50%;
+    margin: 5% auto 0;
+    /* -moz-border-radius: 5px;
+    -webkit-border-radius: 5px; */
+    /* border-radius: 5px; */
+    /* -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2); */
+/* } */
+.datatable {
+	width: 50%;
+    /* margin: 5% auto 0; */
+	/* margin-bottom: 20px; */
+	border: 5px solid #dddddd;
+	border-collapse: collapse; 
 }
+.datatable__row {
+	font-weight: bold;
+	/* padding: 5px; */
+	background: #efefef;
+	border: 0.5px solid #000000;
+}
+.datatable__cell {
+	border: 0.5px solid #000000;
+	padding: 5px;
+}
+
