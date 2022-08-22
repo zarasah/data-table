@@ -4,17 +4,17 @@ class DataTable {
         data = [], 
         {
             perPage = 5,
-            rowClassName = 'row',
-            cellClassName = 'cell',
-            tableClassName = 'table',
+            rowClassName = '',
+            cellClassName = '',
+            tableClassName = '',
         }) 
         {
         this.columns = columns;
         this.data = data;
         this.perPage = perPage;
-        this.rowClassName = rowClassName;
-        this.cellClassName = cellClassName;
-        this.tableClassName = tableClassName;
+        this.rowClassName = `datatable__row ${rowClassName}`;
+        this.cellClassName = `datatable__cell ${cellClassName}`;
+        this.tableClassName = `datatable ${tableClassName}`;
     }
 
     createTable($dataTableContainer) {
@@ -30,7 +30,7 @@ class DataTable {
         this.$searchInput = $searchInput;
         this.$dataTableContainer.appendChild($searchInput);
         const $table = document.createElement('table');
-        $table.classList.add(this.tableClassName);
+        $table.setAttribute('class', this.tableClassName); // change $table.classList.add(this.tableClassName);
         this.$table = $table;
         this.currentData = this.data.slice(0, this.perPage);
         $dataTableContainer.appendChild($table);
@@ -92,7 +92,7 @@ class DataTable {
     createThead() {
         const $thead = document.createElement('thead');
         const $tr = document.createElement('tr');
-        $tr.classList.add(this.rowClassName);
+        $tr.setAttribute('class', this.rowClassName);  // $tr.classList.add(this.rowClassName); 
 
         const $thCheck = document.createElement('input');
         this.$thCheck = $thCheck;
@@ -117,7 +117,7 @@ class DataTable {
 
         this.columns.forEach((column) => {
             const $th = document.createElement('th');
-            $th.classList.add(this.cellClassName);
+            $th.setAttribute('class', this.cellClassName);  //  $th.classList.add(this.cellClassName);
             $th.innerHTML = column.value;
 
             column.dataIndex === 'delete' ? $th.setAttribute('data-delete', column.dataIndex): $th.setAttribute('data-sort', column.dataIndex);
@@ -181,12 +181,12 @@ class DataTable {
             $tr.appendChild($th);
         });
         const $thDel = document.createElement('th');
-        $thDel.classList.add(this.cellClassName);
+        $thDel.setAttribute('class', this.cellClassName);
         $thDel.innerHTML = 'Delete';
         $tr.appendChild($thDel);
 
         const $thEdit = document.createElement('th');
-        $thEdit.classList.add(this.cellClassName);
+        $thEdit.setAttribute('class', this.cellClassName);
         $thEdit.innerHTML = 'Edit';
         $tr.appendChild($thEdit);
 
@@ -206,10 +206,11 @@ class DataTable {
 
         data.map((item) => {
             const $tr = document.createElement('tr');
-            $tr.classList.add(this.rowClassName);
+            $tr.setAttribute('class', this.rowClassName);
             
             const $tdCheck = document.createElement('input');
-            $tdCheck.classList.add(this.cellClassName);
+            this.$tdCheck = $tdCheck;
+            $tdCheck.setAttribute('class', this.cellClassName);
             $tdCheck.setAttribute('type', 'checkbox');
             $tdCheck.setAttribute('data-id', item.id);
             $tdCheck.classList.add('check');
@@ -228,7 +229,6 @@ class DataTable {
                     this.checkDataList = temp;
                 }
                 
-
                 console.log(this.checkDataList);
                 
                 if (this.checkDataList.length > 1) {
@@ -237,16 +237,24 @@ class DataTable {
                 } else {
                     this.$deleteBtn.hidden = true;
                 }
+
+                for (let i = 0; i < this.currentData.length; i++) {
+                    if (!this.$tdCheck.checked) {
+                        return;
+                    }
+                    this.$thCheck.checked = true;
+                }
             })
 
             for (const key in item) {
                 const $td = document.createElement('td');
-                $td.classList.add(this.cellClassName);
+                $td.setAttribute('class', this.cellClassName);
                 $td.innerHTML = item[key];
                 $tr.appendChild($td);
             }
+            
             const $tdDel = document.createElement('td');
-            $tdDel.classList.add(this.cellClassName);
+            $tdDel.setAttribute('class', this.cellClassName);
             $tdDel.innerHTML = '&#10008';
             $tdDel.setAttribute('data-id', item.id);
             $tr.appendChild($tdDel);
@@ -280,7 +288,7 @@ class DataTable {
             })
 
             const $tdEdit = document.createElement('td');
-            $tdEdit.classList.add(this.cellClassName);
+            $tdEdit.setAttribute('class', this.cellClassName);
             $tdEdit.innerHTML = '&#9998';
             $tdEdit.setAttribute('data-id', item.id);
             $tr.appendChild($tdEdit);
